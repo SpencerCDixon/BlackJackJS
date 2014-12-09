@@ -18,6 +18,9 @@ html {
 body {
   margin: 0; }
 
+.black-background {
+  background: black;
+}
 /* HTML5 display definitions
    ========================================================================== */
 /**
