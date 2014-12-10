@@ -8,7 +8,8 @@ $(function() {
   $body.addClass('black-background');
   var $playersCards = $('<div>').attr('id', 'players_cards');
   var $dealersCards = $('<div>').attr('id', 'dealers_card');
-  var $playersTotalScore = $('<h1>').attr('id', 'players_score').innerHtml = "Player Score: ";
+  var $playersTotalScore = $('<h1>').attr('id', 'players_score').text("Player Score: ");
+  var $dealersTotalScore = $('<h1>').attr('id', 'dealers_score').text("Dealer Score: "); 
 
   $body.append($playersCards);
   $body.append($dealersCards);
@@ -127,7 +128,7 @@ $(function() {
     $playersCards.empty(); // empty player cards div of old images
     playerHand.push(drawCard(deck)); // draw another card
 
-    displayCardsOnScreen(playerHand); // display new drawn card
+    displayCardsOnScreen(playerHand, $playersCards); // display new drawn card
     addPlayerTotal(playerHand); // re-calculate total with new card
 
     // build the new player total H1 and display it under the cards
@@ -143,14 +144,20 @@ $(function() {
     $('#hello_world').text("You Stayed. Let's see if you win");
     displayCardsOnScreen(dealerHand, $dealersCards);
     addDealerTotal(dealerHand)
-      console.log(dealerTotal);
+    dealerHand.push(drawCard(deck));
+
+    $dealersTotalScore = $('<h1>').attr('id', 'dealers_score').text("Dealer Score: " + dealerTotal);
+    $dealersCards.append($dealersTotalScore);
+
     while (dealerTotal < 16) {
-      console.log(dealerTotal);
-      drawCard(dealerHand);
+      $dealersCards.empty();
+      dealerHand.push(drawCard(deck));
+
       displayCardsOnScreen(dealerHand, $dealersCards);
       addDealerTotal(dealerHand)
-      console.log(dealerTotal);
     }
+    console.log(playerTotal);
+    console.log(dealerTotal);
   });
 
 
