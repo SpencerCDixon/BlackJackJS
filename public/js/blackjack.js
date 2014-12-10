@@ -102,17 +102,27 @@ $(function() {
       $('.btn.success').remove();
       $('.btn.warning').remove();
       $('#hello_world').text('You Bust! Better Luck Next Time. Refresh to play again.');
+      $winMessage = $('<div>').attr('class', 'alert success').text("Refresh To Play Again");
+      $body.append($winMessage);
     }
   }
 
   function checkForWinner(playerHand, dealerHand) {
     if (playerHand < 21 && dealerHand > 21) {
+      $winMessage = $('<div>').attr('class', 'alert success').text("Refresh To Play Again");
+      $body.append($winMessage);
       $('#hello_world').text('Player Wins! Great Job!');
     } else if (dealerHand > 21) {
+      $winMessage = $('<div>').attr('class', 'alert success').text("Refresh To Play Again");
+      $body.append($winMessage);
       $('#hello_world').text('Player Wins! Great Job!');
     } else if (playerHand > dealerHand && dealerHand > 21) {
+      $winMessage = $('<div>').attr('class', 'alert success').text("Refresh To Play Again");
+      $body.append($winMessage);
       $('#hello_world').text('Player Wins! Great Job!');
     } else {
+      $winMessage = $('<div>').attr('class', 'alert success').text("Refresh To Play Again");
+      $body.append($winMessage);
       $('#hello_world').text('Computer Wins! Try harder next time... ');
     }
   }
@@ -157,6 +167,7 @@ $(function() {
 
   // Trigger event for dealer to go
   $('.btn.warning').on( "click", function() {
+    $dealersCards.empty();
     $('.btn.success').remove();
     $('.btn.warning').remove();
     $('#hello_world').text("You Stayed. Let's see if you win");
@@ -182,6 +193,5 @@ $(function() {
     console.log(dealerTotal);
     checkForWinner(playerTotal, dealerTotal);
   });
-
 
 }); // End of JQuery Ready Statement

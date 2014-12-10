@@ -2,17 +2,33 @@
   background: gray;
 }
 .card-image {
-  width: 50px;
+  margin: 5px 3px;
 }
 #container {
   padding: 1% 5%;
+  margin-top: 8%;
+  border-radius: 9px;
 }
 .bottom {
   clear: both;
 }
 #hello_world {
   color: white;
+  text-align: center;
 }
 .btn.warning {
   margin-left: 30px;
+}
+#players_cards{
+  width: 500px;
+  float: left;
+}
+
+#dealers_cards {
+  width: 500px;
+  float: right;
+}
+.alert {
+  width: 100%;
+  text-align: center;
 }
