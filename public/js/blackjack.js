@@ -8,21 +8,23 @@ $(function() {
   $body.addClass('black-background');
   var $playersCards = $('<div>').attr('id', 'players_cards');
   var $dealersCards = $('<div>').attr('id', 'dealers_card');
+  var $controls = $('<p>').attr('id', 'controls').addClass('bottom');
   var $playersTotalScore = $('<h1>').attr('id', 'players_score').text("Player Score: ");
   var $dealersTotalScore = $('<h1>').attr('id', 'dealers_score').text("Dealer Score: "); 
 
   $body.append($playersCards);
   $body.append($dealersCards);
+  $body.append($controls);
 
   // Create hit and stay buttons
   var $hit = $('<a>').attr('class', 'btn success').text('Hit Me');
   var $stay = $('<a>').attr('class', 'btn warning').text('Stay');
-  $body.append($hit);
-  $body.append($stay);
+  $controls.append($hit);
+  $controls.append($stay);
 
   // Initialize constants to create deck
   var suits = ["heart", "club", "spade", "diamond"];
-  var ranks = ["ace", "king", "2"];
+  var ranks = ["ace", "king", "queen", "jack", "2", "3", "4", "5", "6", "7", "8", "9"];
   var cardPath = "/cards/";
   var deck = [];
 
@@ -98,7 +100,20 @@ $(function() {
   function checkForBust() {
     if (playerTotal > 21) {
       $('.btn.success').remove();
-      $('#hello_world').text('You Bust! Better Luck Next Time');
+      $('.btn.warning').remove();
+      $('#hello_world').text('You Bust! Better Luck Next Time. Refresh to play again.');
+    }
+  }
+
+  function checkForWinner(playerHand, dealerHand) {
+    if (playerHand < 21 && dealerHand > 21) {
+      $('#hello_world').text('Player Wins! Great Job!');
+    } else if (dealerHand > 21) {
+      $('#hello_world').text('Player Wins! Great Job!');
+    } else if (playerHand > dealerHand && dealerHand > 21) {
+      $('#hello_world').text('Player Wins! Great Job!');
+    } else {
+      $('#hello_world').text('Computer Wins! Try harder next time... ');
     }
   }
 
@@ -155,9 +170,14 @@ $(function() {
 
       displayCardsOnScreen(dealerHand, $dealersCards);
       addDealerTotal(dealerHand)
+
+        // Make sure dealer score is being displayed after every draw
+      $dealersTotalScore = $('<h1>').attr('id', 'dealers_score').text("Dealer Score: " + dealerTotal);
+      $dealersCards.append($dealersTotalScore);
     }
     console.log(playerTotal);
     console.log(dealerTotal);
+    checkForWinner(playerTotal, dealerTotal);
   });
 
 

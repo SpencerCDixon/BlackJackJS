@@ -4,3 +4,7 @@
 .card-image {
   width: 50px;
 }
+
+#container {
+  padding: 1% 5%;
+}
