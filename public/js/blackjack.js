@@ -117,7 +117,7 @@ $(function() {
     }
   }
 
-  // Create players hand and total. Draw two cards for player's hand to start off
+  // Create player & computer hand. Draw two cards for each hand to start off
   var playerHand = []
   var playerTotal = 0
   var dealerHand= []
@@ -135,8 +135,11 @@ $(function() {
 
   // display player total on screen
   $playersTotalScore = $('<h1>').attr('id', 'players_score').text("Player Score: " + playerTotal);
-
   $playersCards.append($playersTotalScore);
+
+  // display one of computers cards on screen
+  var faceUpCard = [dealerHand[0]]
+  displayCardsOnScreen(faceUpCard, $dealersCards);
 
   // Trigger event for hit state. Delete cards in div, add card to hand, redraw all cards
   $('.btn.success').on( "click", function() {

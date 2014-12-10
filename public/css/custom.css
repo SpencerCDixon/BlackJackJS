@@ -4,7 +4,15 @@
 .card-image {
   width: 50px;
 }
-
 #container {
   padding: 1% 5%;
+}
+.bottom {
+  clear: both;
+}
+#hello_world {
+  color: white;
+}
+.btn.warning {
+  margin-left: 30px;
 }
