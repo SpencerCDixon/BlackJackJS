@@ -59,6 +59,7 @@ $(function() {
     var value;
     var splitPath = card.split(/\//);
     var splitWord = splitPath[2].split(/-/);
+    // Hard coded ace in for now
     if (splitWord[0] == "ace") {
       value = 11
     } else if (splitWord[0] == "king") {
@@ -78,7 +79,7 @@ $(function() {
     for (h = 0; h < hand.length; h++) {
       var $card = $('<img>').attr('src', hand[h]).attr('class', 'card-image');
       cardDiv.append($card);
-      checkForBust()
+      checkForBust();
     }
   }
 
@@ -92,7 +93,7 @@ $(function() {
     }
     return playerTotal
   }
-  
+
   function addDealerTotal(hand) {
     if (dealerTotal > 0) {
       dealerTotal = 0
@@ -103,15 +104,6 @@ $(function() {
     }
     return dealerTotal
   }
-
-  
-
-  function resetGame(pHand, dHand, pTotal, dTotal) {
-      pHand = []
-      pTotal = 0
-      dHand= []
-      dTotal = 0
-  };
 
   function makePlayAgain() {
     // put the play button onto the screen
@@ -196,7 +188,7 @@ $(function() {
           $dealersCards.append($dealersTotalScore);
         }
         checkForWinner(playerTotal, dealerTotal); // Find winner of the round
-        
+
         // change chip counts if won
         $chipCounts.empty();
         var $playersChips = $('<p>').attr('id', 'player_chips').addClass('chips').text("Player's Chips: " + playersTotalChips); 
@@ -204,7 +196,7 @@ $(function() {
       }); 
     });
 
-    
+
 
   };
   function checkForBust() {
@@ -216,7 +208,7 @@ $(function() {
     }
   }
 
-  function checkForWinner(playerHand, dealerHand, message) {
+  function checkForWinner(playerHand, dealerHand) {
     makePlayAgain();
     if (playerHand <= 21 && dealerHand > 21) {
       $('#hello_world').text('Player Wins! Great Job!');
@@ -256,7 +248,7 @@ $(function() {
   $playersCards.append($playersTotalScore);
 
   // Display one of computers cards on screen
-  var faceUpCard = [dealerHand[0]]
+  var faceUpCard = [dealerHand[0]];
   displayCardsOnScreen(faceUpCard, $dealersCards);
 
   // Trigger event for hit state. Delete cards in div, add card to hand, redraw all cards
@@ -302,6 +294,5 @@ $(function() {
     $chipCounts.append($playersChips);
   });
 
-  
 
 }); // End of JQuery Ready Statement
