@@ -11,9 +11,7 @@
   border-bottom-left-radius: 95px;
   border-bottom-right-radius: 95px;
   width: 70%;
-  background-image: url("/../img/felt.png");
-  background-repeat: repeat;
-  background-position: right top;
+  background: url("/../img/felt.png") repeat right top;
   border: 20px solid brown;
 }
 
@@ -56,3 +54,14 @@ body {
 #dealers_score {
   color: white;
 }
+#chip_count {
+  width: 100%;
+  background: url("/img/chips.png") no-repeat 0 0 ;
+}
+#player_chips {
+  color: white;
+  margin-left: 5%;
+  margin-top: 1%;
+}
+
+

@@ -12,9 +12,16 @@ $(function() {
   var $playersTotalScore = $('<h1>').attr('id', 'players_score').text("Player Score: ");
   var $dealersTotalScore = $('<h1>').attr('id', 'dealers_score').text("Dealer Score: "); 
 
+  // Will be used to incorporate betting
+  var $chipCounts = $('<div>').attr('id', 'chip_count');
+  var playersTotalChips = 0
+  var $playersChips = $('<p>').attr('id', 'player_chips').addClass('player_chips').text("Player's Chips: " + playersTotalChips); 
+
   $body.append($playersCards);
   $body.append($dealersCards);
   $body.append($controls);
+  $body.append($chipCounts);
+  $chipCounts.append($playersChips);
 
   // Create hit and stay buttons
   var $hit = $('<a>').attr('class', 'btn danger').text('Hit Me');
@@ -113,6 +120,11 @@ $(function() {
 
     // reset the cards for a new round
     $('#play').on( "click", function() {
+      // for betting
+      $chipCounts.empty();
+      var $playersChips = $('<p>').attr('id', 'player_chips').addClass('chips').text("Player's Chips: " + playersTotalChips); 
+      $chipCounts.append($playersChips);
+
       $('#hello_world').text("Lets play blackjack!");
       $('#play').remove();
       $controls.append($hit);
@@ -184,6 +196,11 @@ $(function() {
           $dealersCards.append($dealersTotalScore);
         }
         checkForWinner(playerTotal, dealerTotal); // Find winner of the round
+        
+        // change chip counts if won
+        $chipCounts.empty();
+        var $playersChips = $('<p>').attr('id', 'player_chips').addClass('chips').text("Player's Chips: " + playersTotalChips); 
+        $chipCounts.append($playersChips);
       }); 
     });
 
@@ -203,9 +220,12 @@ $(function() {
     makePlayAgain();
     if (playerHand <= 21 && dealerHand > 21) {
       $('#hello_world').text('Player Wins! Great Job!');
+      playersTotalChips += 10
     } else if (dealerHand > 21) {
+      playersTotalChips += 10
       $('#hello_world').text('Player Wins! Great Job!');
     } else if (playerHand <= 21 && playerHand > dealerHand && dealerHand <= 21) {
+      playersTotalChips += 10
       $('#hello_world').text('Player Wins! Great Job!');
     } else {
       $('#hello_world').text('Computer Wins! Try harder next time... ');
@@ -277,6 +297,9 @@ $(function() {
       $dealersCards.append($dealersTotalScore);
     }
     checkForWinner(playerTotal, dealerTotal); // Find winner of the round
+    $chipCounts.empty();
+    var $playersChips = $('<p>').attr('id', 'player_chips').addClass('chips').text("Player's Chips: " + playersTotalChips); 
+    $chipCounts.append($playersChips);
   });
 
   
