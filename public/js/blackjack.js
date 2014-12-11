@@ -4,6 +4,84 @@ $(function() {
   /////////////////////////
 
   // Grab the body and add two containers for the cards also make container darker color to see cards
+  
+  window.BlackJack = {
+    Models: {},
+    Views: {}
+  };
+
+  window.BlackJack.Models.Card = function(suit, rank){
+    this.suit = suit;
+    this.rank = rank;
+
+    this.isFaceCard = function(){
+      this.rank === 'king' || this.rank === 'queen' || this.rank === 'jack';
+    }
+
+    this.value = function(){
+      if(this.isFaceCard()){
+        return 10;
+      }
+      else {
+        return parseInt(this.rank);
+      }
+    }
+  }
+
+  window.BlackJack.Models.Deck = function(numDecks){
+    this.numDecks = numDecks || 1;
+
+    SUITS = ["heart", "club", "spade", "diamond"];
+    RANKS = ["ace", "king", "queen", "jack", "2", "3", "4", "5", "6", "7", "8", "9"];  
+
+    this.contents = [];
+
+    this.draw = function(){
+      var randomNumber = Math.floor(Math.random() * this.contents.length);
+      var drawnCard = this.contents[randomNumber];
+      this.contents.splice(randomNumber, 1);
+      return drawnCard; 
+    }
+
+    // Build the deck with paths to the correct images
+    var deckCtr = 0;
+    for (var d = 0; d < numDecks; d++){
+      for (var s = 0; s < SUITS.length; s++ ) {
+        for (var r = 0; r < RANKS.length; r++ ) {
+          var card = new window.BlackJack.Models.Card(SUITS[s], RANKS[r]);
+          this.contents.push(card);
+        }
+      }
+    }
+  }
+
+  window.BlackJack.Models.Hand = function(){
+    this.cards = [];
+
+    this.push = function(card){
+      this.cards.push(card);
+    }
+  }
+  window.BlackJack.Models.Player = function(name){
+    
+  }
+
+  window.BlackJack.Models.BlackJackDealing = function(deck, hands){
+    this.deck = deck;
+    this.hands = hands;
+
+    this.deal = function(){
+      CARD_COUNT = 2;
+      for(var i = 0; i < CARD_COUNT; i++){
+        for(var j = 0; j < players.length; j++){
+          this.hands[j].push(this.deck.draw());
+        }
+      }
+    }
+  }
+
+  var deck = new window.BlackJack.Models.Deck(1);
+
   var $body = $("#container");
   $body.addClass('black-background');
   var $playersCards = $('<div>').attr('id', 'players_cards');
