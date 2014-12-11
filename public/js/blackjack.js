@@ -108,7 +108,7 @@ $(function() {
   }
 
   function checkForWinner(playerHand, dealerHand) {
-    if (playerHand < 21 && dealerHand > 21) {
+    if (playerHand <= 21 && dealerHand > 21) {
       $winMessage = $('<div>').attr('class', 'alert success').text("Refresh To Play Again");
       $body.append($winMessage);
       $('#hello_world').text('Player Wins! Great Job!');
@@ -116,7 +116,7 @@ $(function() {
       $winMessage = $('<div>').attr('class', 'alert success').text("Refresh To Play Again");
       $body.append($winMessage);
       $('#hello_world').text('Player Wins! Great Job!');
-    } else if (playerHand > dealerHand && dealerHand > 21) {
+    } else if (playerHand <= 21 && playerHand > dealerHand && dealerHand <= 21) {
       $winMessage = $('<div>').attr('class', 'alert success').text("Refresh To Play Again");
       $body.append($winMessage);
       $('#hello_world').text('Player Wins! Great Job!');
@@ -173,12 +173,12 @@ $(function() {
     $('#hello_world').text("You Stayed. Let's see if you win");
     displayCardsOnScreen(dealerHand, $dealersCards);
     addDealerTotal(dealerHand)
-    dealerHand.push(drawCard(deck));
+    // dealerHand.push(drawCard(deck));
 
     $dealersTotalScore = $('<h1>').attr('id', 'dealers_score').text("Dealer Score: " + dealerTotal);
     $dealersCards.append($dealersTotalScore);
 
-    while (dealerTotal < 16) {
+    while (dealerTotal < 16 && dealerTotal <= 21) {
       $dealersCards.empty();
       dealerHand.push(drawCard(deck));
 
