@@ -8,8 +8,15 @@
   padding: 1% 5%;
   margin-top: 8%;
   border-radius: 9px;
+  border-bottom-left-radius: 95px;
+  border-bottom-right-radius: 95px;
   width: 70%;
+  background-image: url("/../img/felt.png");
+  background-repeat: repeat;
+  background-position: right top;
+  border: 20px solid brown;
 }
+
 .bottom {
   clear: both;
 }
@@ -17,9 +24,13 @@
   color: white;
   text-align: center;
 }
-.btn.warning {
+.btn.info {
   margin-left: 30px;
 }
+.btn {
+  color: black;
+}
+
 #players_cards{
   width: 300px;
   float: left;
@@ -32,4 +43,16 @@
 .alert {
   width: 100%;
   text-align: center;
+}
+
+body {
+  background: black;
+}
+
+#players_score {
+  color: white;
+}
+
+#dealers_score {
+  color: white;
 }
