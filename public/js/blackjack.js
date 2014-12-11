@@ -18,13 +18,13 @@ $(function() {
 
   // Create hit and stay buttons
   var $hit = $('<a>').attr('class', 'btn danger').text('Hit Me');
-  var $stay = $('<a>').attr('class', 'btn info').text('Stay');
+  var $stay = $('<a>').attr('class', 'btn info').attr('id', 'stay').text('Stay');
   $controls.append($hit);
   $controls.append($stay);
 
   // Initialize constants to create deck
   var suits = ["heart", "club", "spade", "diamond"];
-  var ranks = ["ace", "king", "queen", "jack", "2", "3", "4", "5", "6", "7", "8", "9"];
+  var ranks = ["ace", "king", "queen", "jack", "2", "3", "4", "5", "6", "7", "8", "9", "ace", "king", "queen", "jack", "2", "3", "4", "5", "6", "7", "8", "9"]; 
   var cardPath = "/cards/";
   var deck = [];
 
@@ -97,34 +97,120 @@ $(function() {
     return dealerTotal
   }
 
+  
+
+  function resetGame(pHand, dHand, pTotal, dTotal) {
+      pHand = []
+      pTotal = 0
+      dHand= []
+      dTotal = 0
+  };
+
+  function makePlayAgain() {
+    // put the play button onto the screen
+    var $replay = $('<a>').attr('class', 'btn info').attr('id', 'play').text('Play Again');
+    $controls.append($replay);
+
+    // reset the cards for a new round
+    $('#play').on( "click", function() {
+      $('#hello_world').text("Lets play blackjack!");
+      $('#play').remove();
+      $controls.append($hit);
+      $controls.append($stay);
+
+      $playersCards.empty();
+      $dealersCards.empty();
+
+
+      // reset hands and totals for new round
+      playerHand = []
+      playerTotal = 0
+      dealerHand = []
+      dealerTotal = 0
+
+      // Draw two cards for each hand to start off
+       playerHand.push(drawCard(deck));
+       dealerHand.push(drawCard(deck));
+       playerHand.push(drawCard(deck));
+       dealerHand.push(drawCard(deck));
+
+
+       displayCardsOnScreen(playerHand, $playersCards);
+
+
+      // Add player total
+       addPlayerTotal(playerHand);
+
+      // Display player total on screen
+      $playersTotalScore = $('<h1>').attr('id', 'players_score').text("Player Score: " + playerTotal);
+      $playersCards.append($playersTotalScore);
+
+      // Display one of computers cards on screen
+      var faceUpCard = [dealerHand[0]]
+      displayCardsOnScreen(faceUpCard, $dealersCards); 
+
+      $('.btn.danger').on( "click", function() {
+        $playersCards.empty(); // empty player cards div of old images
+        playerHand.push(drawCard(deck)); // draw another card
+
+        displayCardsOnScreen(playerHand, $playersCards); // display new drawn card
+        addPlayerTotal(playerHand); // re-calculate total with new card
+
+        // Build the new player total H1 and display it under the cards
+        $playersTotalScore = $('<h1>').attr('id', 'players_score').text("Player Score: " + playerTotal);
+        $playersCards.append($playersTotalScore);
+      });
+
+      $('#stay').on( "click", function() {
+        $dealersCards.empty();
+        $('.btn.danger').remove();
+        $('.btn.info').remove();
+        $('#hello_world').text("You Stayed. Let's see if you win");
+        displayCardsOnScreen(dealerHand, $dealersCards);
+        addDealerTotal(dealerHand)
+
+        $dealersTotalScore = $('<h1>').attr('id', 'dealers_score').text("Dealer Score: " + dealerTotal);
+        $dealersCards.append($dealersTotalScore);
+
+        while (dealerTotal < 16 && dealerTotal <= 21) {
+          $dealersCards.empty();
+          dealerHand.push(drawCard(deck));
+
+          displayCardsOnScreen(dealerHand, $dealersCards);
+          addDealerTotal(dealerHand)
+
+        // Make sure dealer score is being displayed after every draw
+          $dealersTotalScore = $('<h1>').attr('id', 'dealers_score').text("Dealer Score: " + dealerTotal);
+          $dealersCards.append($dealersTotalScore);
+        }
+        checkForWinner(playerTotal, dealerTotal); // Find winner of the round
+      }); 
+    });
+
+    
+
+  };
   function checkForBust() {
     if (playerTotal > 21) {
       $('.btn.danger').remove();
       $('.btn.info').remove();
       $('#hello_world').text('You Bust! Better Luck Next Time. Refresh to play again.');
-      $winMessage = $('<div>').attr('class', 'alert danger').text("Refresh To Play Again");
-      $body.append($winMessage);
+      makePlayAgain();
     }
   }
 
-  $winMessage = $('<div>').attr('class', 'alert danger').text("Refresh To Play Again");
-
   function checkForWinner(playerHand, dealerHand, message) {
+    makePlayAgain();
     if (playerHand <= 21 && dealerHand > 21) {
-      $body.append(message);
       $('#hello_world').text('Player Wins! Great Job!');
     } else if (dealerHand > 21) {
-      $body.append(message);
       $('#hello_world').text('Player Wins! Great Job!');
     } else if (playerHand <= 21 && playerHand > dealerHand && dealerHand <= 21) {
-      $body.append(message);
       $('#hello_world').text('Player Wins! Great Job!');
     } else {
-      $body.append(message);
       $('#hello_world').text('Computer Wins! Try harder next time... ');
     }
   }
-
   /////////////////////////
   //      GAME PLAY      //
   /////////////////////////
@@ -168,7 +254,7 @@ $(function() {
 
 
   // Trigger event for dealer to go
-  $('.btn.info').on( "click", function() {
+  $('#stay').on( "click", function() {
     $dealersCards.empty();
     $('.btn.danger').remove();
     $('.btn.info').remove();
@@ -190,7 +276,9 @@ $(function() {
       $dealersTotalScore = $('<h1>').attr('id', 'dealers_score').text("Dealer Score: " + dealerTotal);
       $dealersCards.append($dealersTotalScore);
     }
-    checkForWinner(playerTotal, dealerTotal, $winMessage); // Find winner of the round
+    checkForWinner(playerTotal, dealerTotal); // Find winner of the round
   });
+
+  
 
 }); // End of JQuery Ready Statement
